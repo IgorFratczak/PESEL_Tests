@@ -1,16 +1,16 @@
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
-        String input = "";
-        Pesel pesel;
+        String input = null;
+        Pesel pesel = null;
         if( args.length == 1 ){
             input = args[0];
         }else if(args.length == 0){
             Scanner scan = new Scanner(System.in);
-            System.out.println("Podaj numer PESEL: ");
+            System.out.print("Enter your PESEL number: ");
             input = scan.nextLine();
         }else {
-            System.out.println("Podano złe parametry");
+            System.out.println("Wrong parameters were entered");
             System.exit(0);
         }
         try{
@@ -18,6 +18,9 @@ public class Main {
         }catch (IllegalArgumentException e){
             System.out.println(e);
         }
+        System.out.println("The PESEL number provided is correct");
+        System.out.println("Gender: " + pesel.gender());
+        System.out.println("Birth date: " + pesel.birthDate());
 
     }
 }
