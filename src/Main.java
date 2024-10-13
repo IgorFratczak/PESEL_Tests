@@ -2,7 +2,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         String input = null;
-        Pesel pesel = null;
         if( args.length == 1 ){
             input = args[0];
         }else if(args.length == 0){
@@ -14,13 +13,16 @@ public class Main {
             System.exit(0);
         }
         try{
-            pesel = new Pesel(input);
+            if(!Pesel.isValidPesel(input)){
+                System.out.println("PESEL number provided is not correct");
+            }
         }catch (IllegalArgumentException e){
             System.out.println(e);
         }
-        System.out.println("The PESEL number provided is correct");
-        System.out.println("Gender: " + pesel.gender());
-        System.out.println("Birth date: " + pesel.birthDate());
+        //there should be "finnaly" here, but I don't know what it should display there
+        System.out.println("PESEL number provided is correct");
+        System.out.println("Gender: " + Pesel.gender(input));
+        System.out.println("Birth date: " + Pesel.birthDate(input));
 
     }
 }

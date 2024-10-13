@@ -1,22 +1,17 @@
+public class Pesel {
 
-class Pesel {
-    private String peselNumber;
-    public Pesel(String input) {
-        if (input == null || input.length() != 11 || !input.matches("\\d+")) {
+    public static String gender(String peselNumber) {
+        if (!isValidPesel(peselNumber)) {
             throw new IllegalArgumentException("Invalid PESEL number.");
         }
-        if (!checkPesel(input)) {
-            throw new IllegalArgumentException("Invalid PESEL number - checksum mismatch.");
-        }
-        peselNumber = input;
-    }
-
-    public String gender() {
         int genderDigit = Character.getNumericValue(peselNumber.charAt(9));
-        return (genderDigit % 2 == 0) ? "Female" : "Male";
+        return (genderDigit % 2 == 0) ? "K" : "M";
     }
 
-    public String birthDate() {
+    public static String birthDate(String peselNumber) {
+        if (!isValidPesel(peselNumber)) {
+            throw new IllegalArgumentException("Invalid PESEL number.");
+        }
         int year = Integer.parseInt(peselNumber.substring(0, 2));
         int month = Integer.parseInt(peselNumber.substring(2, 4));
         int day = Integer.parseInt(peselNumber.substring(4, 6));
@@ -42,7 +37,10 @@ class Pesel {
         return String.format("%02d.%02d.%d", day, month, year);
     }
 
-    private boolean checkPesel(String pesel) {
+    public static boolean isValidPesel(String pesel) {
+        if (pesel == null || pesel.length() != 11 || !pesel.matches("\\d+")) {
+            throw new IllegalArgumentException("Invalid PESEL number.");
+        }
         int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
         int sum = 0;
 
