@@ -9,16 +9,18 @@ import java.io.IOException;
 
 public class PeselTest {
 
-    private String csvFile = "src/pesel_test_data.csv";
+    private final String csvFile = "src/pesel_test_data.csv";
     private String line;
-    private String cvsSplitBy = ",";
+    private final String cvsSplitBy = ",";
 
     @BeforeEach
     void setUp() {
+        System.out.println("Start testing \n");
     }
 
     @AfterEach
     void tearDown() {
+        System.out.println("End testing");
     }
 
     @Test
@@ -32,7 +34,7 @@ public class PeselTest {
                 String expectedGender = peselData[1];
                 String expectedBirthDate = peselData[2];
                 boolean expectedIsValid = Boolean.parseBoolean(peselData[3]);
-                System.out.println(peselData[0] + peselData[1] +peselData[2]+peselData[3]);
+                System.out.println("Pesel: "+peselData[0]+ "\nGender: " + peselData[1] + "\nBirth date: " +peselData[2]+"\nExpectet valid: "+peselData[3] + "\n");
                 assertEquals(expectedIsValid, Pesel.isValidPesel(pesel));
                 if (expectedIsValid) {
                     assertEquals(expectedGender, Pesel.gender(pesel));
