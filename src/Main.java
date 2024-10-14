@@ -13,7 +13,7 @@ public class Main {
             System.exit(0);
         }
         try{
-            if(!Pesel.isValidPesel(input)){
+            if(!Pesel.check_Pesel(input)){
                 System.out.println("PESEL number provided is not correct");
             }
         }catch (IllegalArgumentException e){

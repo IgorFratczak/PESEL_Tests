@@ -35,7 +35,7 @@ public class PeselTest {
                 String expectedBirthDate = peselData[2];
                 boolean expectedIsValid = Boolean.parseBoolean(peselData[3]);
                 System.out.println("Pesel: "+peselData[0]+ "\nGender: " + peselData[1] + "\nBirth date: " +peselData[2]+"\nExpectet valid: "+peselData[3] + "\n");
-                assertEquals(expectedIsValid, Pesel.isValidPesel(pesel));
+                assertEquals(expectedIsValid, Pesel.check_Pesel(pesel));
                 if (expectedIsValid) {
                     assertEquals(expectedGender, Pesel.gender(pesel));
                 }

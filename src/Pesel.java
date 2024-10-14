@@ -19,7 +19,7 @@ public class Pesel {
      * @throws IllegalArgumentException if the PESEL number is invalid
      */
     public static String gender(String peselNumber) throws IllegalArgumentException {
-        validatePesel(peselNumber);
+        check_Pesel(peselNumber);
         int genderDigit = Character.getNumericValue(peselNumber.charAt(9));
         return (genderDigit % 2 == 0) ? "K" : "M";
     }
@@ -32,7 +32,7 @@ public class Pesel {
      * @throws IllegalArgumentException if the PESEL number is invalid
      */
     public static String birthDate(String peselNumber) throws IllegalArgumentException {
-        validatePesel(peselNumber);
+        check_Pesel(peselNumber);
         int year = Integer.parseInt(peselNumber.substring(0, 2));
         int month = Integer.parseInt(peselNumber.substring(2, 4));
         int day = Integer.parseInt(peselNumber.substring(4, 6));
@@ -58,65 +58,7 @@ public class Pesel {
         return String.format("%02d.%02d.%d", day, month, year);
     }
 
-    /**
-     * Validates the provided PESEL number.
-     *
-     * @param pesel the PESEL number as a string
-     * @return true if the PESEL is valid, false otherwise
-     */
-    public static boolean isValidPesel(String pesel) {
-        try {
-            validatePesel(pesel);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-    }
 
-    /**
-     * Exception thrown when the PESEL number is null.
-     */
-    public static class PeselNullException extends IllegalArgumentException {
-        public PeselNullException() {
-            super("PESEL is null.");
-        }
-    }
-
-    /**
-     * Exception thrown when the PESEL number does not have the correct length.
-     */
-    public static class PeselLengthException extends IllegalArgumentException {
-        public PeselLengthException() {
-            super("PESEL must be 11 characters long.");
-        }
-    }
-
-    /**
-     * Exception thrown when the PESEL number contains invalid characters.
-     */
-    public static class PeselInvalidCharacterException extends IllegalArgumentException {
-        public PeselInvalidCharacterException() {
-            super("PESEL contains invalid characters.");
-        }
-    }
-
-    /**
-     * Exception thrown when the PESEL checksum does not match.
-     */
-    public static class PeselChecksumMismatchException extends IllegalArgumentException {
-        public PeselChecksumMismatchException() {
-            super("PESEL checksum mismatch.");
-        }
-    }
-
-    /**
-     * Exception thrown when the PESEL number has an invalid month.
-     */
-    public static class PeselInvalidMonthException extends IllegalArgumentException {
-        public PeselInvalidMonthException() {
-            super("Invalid month in PESEL.");
-        }
-    }
 
     /**
      * Validates the provided PESEL number for correctness.
@@ -124,15 +66,15 @@ public class Pesel {
      * @param pesel the PESEL number as a string
      * @throws IllegalArgumentException if the PESEL number is invalid
      */
-    private static Boolean validatePesel(String pesel) throws IllegalArgumentException {
+    public static Boolean check_Pesel(String pesel) throws IllegalArgumentException {
         if (pesel == null) {
-            throw new PeselNullException();
+            throw new IllegalArgumentException("Pesel is null pointer");
         }
         if (pesel.length() != 11) {
-            throw new PeselLengthException();
+            throw new IllegalArgumentException("Pesel length is not corect");
         }
         if (!pesel.matches("\\d+")) {
-            throw new PeselInvalidCharacterException();
+            throw new IllegalArgumentException();
         }
 
         int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
@@ -144,30 +86,8 @@ public class Pesel {
 
         int checksum = (10 - (sum % 10)) % 10;
         int lastDigit = Character.getNumericValue(pesel.charAt(10));
-
-        if (checksum != lastDigit) {
-            throw new PeselChecksumMismatchException();
-        }
-
-        int month = Integer.parseInt(pesel.substring(2, 4));
-        if (!isValidMonth(month)) {
-            throw new PeselInvalidMonthException();
-        }
-
-        return true;
+        return checksum == lastDigit;
     }
 
-    /**
-     * Checks if the provided month is valid for the PESEL format.
-     *
-     * @param month the month as an integer
-     * @return true if the month is valid, false otherwise
-     */
-    private static boolean isValidMonth(int month) {
-        return (month >= 1 && month <= 12) || // 1900-1999
-                (month >= 21 && month <= 32) || // 2000-2099
-                (month >= 41 && month <= 52) || // 2100-2199
-                (month >= 61 && month <= 72) || // 2200-2299
-                (month >= 81 && month <= 92);   // 1800-1899
-    }
+
 }
